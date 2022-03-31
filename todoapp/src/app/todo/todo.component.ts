@@ -31,15 +31,26 @@ export class TodoComponent implements OnInit {
     this.tasks.push({
       descrption:this.todoForm.value.item,
       done:false
-    })
+    });
+    this.todoForm.reset();
   }
 
   onEdit(item:ITask, i:number){
     this.todoForm.controls['item'].setValue(item.descrption);
     this.updateId=i;
-    this.isEditEnabled=true;
+    this.isEditEnabled=true; 
 
   }
+
+  updateTask(){
+    this.tasks[this.updateId].descrption=this.todoForm.value.item;
+    this.tasks[this.updateId].done=false;
+    this.todoForm.reset();
+    this.updateId=undefined;
+    this.isEditEnabled=false;
+
+  }
+
 
   deleteTask(i:number)
   {
@@ -52,8 +63,10 @@ export class TodoComponent implements OnInit {
 
   deletedoneTask(i:number)
   {
-    this.inprogress.splice(i,1)
+    this.done.splice(i,1)
   }
+
+  
 
   drop(event: CdkDragDrop<ITask[]>) {
     if (event.previousContainer === event.container) {
